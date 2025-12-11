@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ module.title }}</title>
+
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f6f8; color: #333; margin:0; padding:0;}
+        .container { max-width: 1000px; margin: 50px auto; padding: 20px; background:#fff; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+        .module-header { display:flex; justify-content:space-between; align-items:center; border-bottom:2px solid #eee; padding-bottom:15px; margin-bottom:25px;}
+        .module-header h1 { font-size:28px;}
+        .module-header span { font-size:16px; color:#777;}
+        .module-content { display:flex; gap:30px; flex-wrap:wrap;}
+        .module-image { flex:1; min-width:280px;}
+        .module-image img { width:100%; border-radius:12px; object-fit:cover;}
+        .module-info { flex:2; min-width:280px;}
+        .module-info h2 { font-size:22px; margin-bottom:10px;}
+        .module-info p { line-height:1.6; margin-bottom:20px;}
+        .btn { display:inline-block; padding:12px 25px; background:#4e9af1; color:#fff; border-radius:8px; text-decoration:none; font-weight:bold; transition:0.3s;}
+        .btn:hover { background:#367ce0;}
+        .module-features { margin-top:40px;}
+        .module-features h3 { font-size:20px; margin-bottom:15px;}
+        .feature-list { display:flex; flex-wrap:wrap; gap:20px;}
+        .feature-item { flex:1; min-width:200px; background:#f9f9f9; padding:15px 20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:0.3s;}
+        .feature-item:hover { transform:translateY(-5px);}
+        .feature-item h4 { font-size:18px; margin-bottom:8px;}
+        .feature-item p { font-size:14px; color:#555;}
+        @media(max-width:768px){.module-content{flex-direction:column;}}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Module Header -->
+        <div class="module-header">
+            <h1>{{ module.title }}</h1>
+            <span>Course: {{ module.course.title }}</span>
+        </div>
+
+        <!-- Module Content -->
+        <div class="module-content">
+            <div class="module-image">
+                {% if module.image %}
+                    <img src="{{ module.image.url }}" alt="{{ module.title }}">
+                {% else %}
+                    <img src="https://via.placeholder.com/400x250" alt="{{ module.title }}">
+                {% endif %}
+            </div>
+            <div class="module-info">
+                <h2>Overview</h2>
+                {% if module.overview %}
+                    <p>{{ module.overview }}</p>
+                {% else %}
+                    <p>No overview available.</p>
+                {% endif %}
+                <a href="#" class="btn">Enroll Now</a>
+            </div>
+        </div>
+
+        <!-- Module Features -->
+        {% if module.features.exists %}
+        <div class="module-features">
+            <h3>Key Features</h3>
+            <div class="feature-list">
+                {% for feature in module.features.all %}
+                    <div class="feature-item">
+                        <h4>{{ feature.title }}</h4>
+                        <p>{{ feature.description }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>

@@ -1,0 +1,389 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Edukate - Online Education Website Template</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet"> 
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-dark">
+        <div class="row py-2 px-lg-5">
+            <div class="col-lg-6 text-center text-lg-left mb-2 mb-lg-0">
+                <div class="d-inline-flex align-items-center text-white">
+                    <small><i class="fa fa-phone-alt mr-2"></i>+012 345 6789</small>
+                    <small class="px-3">|</small>
+                    <small><i class="fa fa-envelope mr-2"></i>info@example.com</small>
+                </div>
+            </div>
+            <div class="col-lg-6 text-center text-lg-right">
+                <div class="d-inline-flex align-items-center">
+                    <a class="text-white px-2" href="https://facebook.com">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-white px-2" href="https://twitter.com">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-white px-2" href="https://linkedin.com">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-white px-2" href="https://instagram.com">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a class="text-white pl-2" href="https://youtube.com">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+<!-- Navbar Start --> 
+<div class="container-fluid p-0">
+    <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
+        <a href="{% url 'app:home' %}" class="navbar-brand ml-lg-3">
+            <h1 class="m-0 text-uppercase text-primary"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between px-lg-3" id="navbarCollapse">
+            <div class="navbar-nav mx-auto py-0">
+                <a href="{% url 'app:home' %}" class="nav-item nav-link">Home</a>
+                <a href="{% url 'app:about' %}" class="nav-item nav-link active">About</a>
+                <a href="{% url 'app:courses' %}" class="nav-item nav-link">Courses</a>
+
+                <div class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages</a>
+                    <div class="dropdown-menu m-0">
+                        <a href="{% url 'app:courses' %}" class="dropdown-item">Course Detail</a>
+                        <a href="{% url 'app:feature' %}" class="dropdown-item">Our Features</a>
+                        <a href="{% url 'app:team' %}" class="dropdown-item">Instructors</a>
+                        <a href="{% url 'app:testimonial' %}" class="dropdown-item">Testimonial</a>
+                    </div>
+                </div>
+
+                <a href="{% url 'app:contact' %}" class="nav-item nav-link">Contact</a>
+            </div>
+            <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
+        </div>
+    </nav>
+</div>
+<!-- Navbar End -->
+
+    <!-- Header Start -->
+    <div class="jumbotron jumbotron-fluid position-relative overlay-bottom" style="margin-bottom: 90px;">
+        <div class="container text-center my-5 py-5">
+            <h1 class="text-white mt-4 mb-4">Learn From Home</h1>
+            <h1 class="text-white display-1 mb-5">Education Courses</h1>
+            <div class="mx-auto mb-5" style="width: 100%; max-width: 600px;">
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <button class="btn btn-outline-light bg-white text-body px-4 dropdown-toggle" type="button" data-toggle="dropdown"
+                            aria-haspopup="true" aria-expanded="false">Courses</button>
+                        <div class="dropdown-menu">
+                            {% for course in courses %}
+                                <a class="dropdown-item" href="{% url 'app:course_detail' slug=course.slug %}">{{ course.title }}</a>
+                            {% empty %}
+                                <a class="dropdown-item" href="#">No courses available</a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <input type="text" class="form-control border-light" style="padding: 30px 25px;" placeholder="Keyword">
+                    <div class="input-group-append">
+                        <button class="btn btn-secondary px-4 px-lg-5">Search</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+    <!-- Detail Start -->
+    <div class="container-fluid py-5">
+        <div class="container py-5">
+            <div class="row">
+                <!-- Left Content -->
+                <div class="col-lg-8">
+                    <div class="mb-5">
+                        <div class="section-title position-relative mb-5">
+                            <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Course Detail</h6>
+                            <h1 class="display-4">{{ course.title }}</h1>
+                        </div>
+
+                        {% if course.image %}
+                            <img class="img-fluid rounded w-100 mb-4" src="{{ course.image.url }}" alt="{{ course.title }}">
+                        {% else %}
+                            <img class="img-fluid rounded w-100 mb-4" src="{% static 'img/header.jpg' %}" alt="{{ course.title }}">
+                        {% endif %}
+
+                        <p>{{ course.overview }}</p>
+
+                        <h2 class="mb-3">Modules</h2>
+                        {% for module in modules %}
+                            <div class="module mb-3">
+                                <h5>{{ module.title }}</h5>
+                                <p>{{ module.overview|default:"No description available." }}</p>
+                                <a href="{% url 'app:module_detail' module.id %}" class="btn btn-primary btn-sm">View Contents</a>
+                            </div>
+                        {% empty %}
+                            <p>No modules available for this course.</p>
+                        {% endfor %}
+                    </div>
+
+                    <h2 class="mb-3">Related Courses</h2>
+                    <div class="owl-carousel related-carousel position-relative" style="padding: 0 30px;">
+                        {% for related in course.subject.courses.all %}
+                            {% if related.id != course.id %}
+                            <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="{% url 'app:course_detail' related.slug %}">
+                                {% if related.image %}
+                                    <img class="img-fluid" src="{{ related.image.url }}" alt="{{ related.title }}">
+                                {% else %}
+                                    <img class="img-fluid" src="{% static 'img/courses-1.jpg' %}" alt="{{ related.title }}">
+                                {% endif %}
+                                <div class="courses-text">
+                                    <h4 class="text-center text-white px-3">{{ related.title }}</h4>
+                                    <div class="border-top w-100 mt-3">
+                                        <div class="d-flex justify-content-between p-4">
+                                            <span class="text-white"><i class="fa fa-user mr-2"></i>{{ related.owner.full_name }}</span>
+                                            <span class="text-white"><i class="fa fa-star mr-2"></i>{{ related.rating }} 
+                                                <small>({{ related.students.count }})</small>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </a>
+                            {% endif %}
+                        {% empty %}
+                            <p>No related courses.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Right Sidebar -->
+                <div class="col-lg-4 mt-5 mt-lg-0">
+                    <div class="bg-primary mb-5 py-3">
+                        <h3 class="text-white py-3 px-4 m-0">Course Features</h3>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Instructor</h6>
+                            <h6 class="text-white my-3">{{ course.owner.full_name }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Rating</h6>
+                            <h6 class="text-white my-3">{{ course.rating }} <small>({{ course.students.count }})</small></h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Lectures</h6>
+                            <h6 class="text-white my-3">{{ course.modules.count }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Duration</h6>
+                            <h6 class="text-white my-3">{{ course.duration }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between border-bottom px-4">
+                            <h6 class="text-white my-3">Skill level</h6>
+                            <h6 class="text-white my-3">{{ course.level }}</h6>
+                        </div>
+                        <div class="d-flex justify-content-between px-4">
+                            <h6 class="text-white my-3">Language</h6>
+                            <h6 class="text-white my-3">{{ course.language }}</h6>
+                        </div>
+                        <h5 class="text-white py-3 px-4 m-0">Course Price: ${{ course.price }}</h5>
+                        <div class="py-3 px-4">
+                            <a class="btn btn-block btn-secondary py-3 px-5" href="">Enroll Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Detail End -->
+    
+    <!-- Modules Section -->
+    <div class="container mb-5">
+        <h2 class="mb-4 font-weight-bold">Modules</h2>
+        <div class="row">
+            {% for module in modules %}
+            <div class="col-md-6 mb-4">
+                <div class="card shadow-sm h-100 border-0">
+                    <div class="card-body">
+                        <h5 class="card-title font-weight-bold">{{ module.title }}</h5>
+                        <p class="card-text text-muted">{{ module.overview|truncatewords:15 }}</p>
+                        <a href="{% url 'app:module_detail' module.id %}" class="btn btn-primary btn-sm">View Contents</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">No modules available for this course.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Related Courses Section -->
+    <div class="container mb-5">
+        <h2 class="mb-4 font-weight-bold">Related Courses</h2>
+        <div class="row">
+            {% for related in course.subject.courses.all %}
+                {% if related.id != course.id %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm border-0 h-100">
+                        {% if related.image %}
+                            <img class="card-img-top" src="{{ related.image.url }}" alt="{{ related.title }}">
+                        {% else %}
+                            <img class="card-img-top" src="{% static 'img/courses-1.jpg' %}" alt="{{ related.title }}">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ related.title }}</h5>
+                            <p class="card-text text-muted mb-2">Instructor: {{ related.owner.full_name }}</p>
+                            <div class="mt-auto d-flex justify-content-between align-items-center">
+                                <span class="badge badge-primary"><i class="fa fa-star"></i> {{ related.rating }}</span>
+                                <a href="{% url 'app:course_detail' related.slug %}" class="btn btn-outline-primary btn-sm">View Course</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% empty %}
+            <div class="col-12">
+                <p class="text-muted">No related courses available.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <style>
+        /* Modules Cards Hover Effect */
+        .card:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Related Courses Card Image */
+        .card-img-top {
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .badge-primary {
+            background-color: #007bff;
+        }
+    </style>
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid position-relative overlay-top bg-dark text-white-50 py-5" style="margin-top: 90px;">
+        <div class="container mt-5 pt-5">
+            <div class="row">
+                <div class="col-md-6 mb-5">
+                    <a href="index.html" class="navbar-brand">
+                        <h1 class="mt-n2 text-uppercase text-white"><i class="fa fa-book-reader mr-3"></i>Edukate</h1>
+                    </a>
+                    <p class="m-0">Accusam nonumy clita sed rebum kasd eirmod elitr. Ipsum ea lorem at et diam est, tempor rebum ipsum sit ea tempor stet et consetetur dolores. Justo stet diam ipsum lorem vero clita diam</p>
+                </div>
+                <div class="col-md-6 mb-5">
+                    <h3 class="text-white mb-4">Newsletter</h3>
+                    <div class="w-100">
+                        <div class="input-group">
+                            <input type="text" class="form-control border-light" style="padding: 30px;" placeholder="Your Email Address">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary px-4">Sign Up</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-5">
+                    <h3 class="text-white mb-4">Get In Touch</h3>
+                    <p><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
+                    <p><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+                    <p><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                    <div class="d-flex justify-content-start mt-4">
+                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-twitter"></i></a>
+                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-facebook-f"></i></a>
+                        <a class="text-white mr-4" href="#"><i class="fab fa-2x fa-linkedin-in"></i></a>
+                        <a class="text-white" href="#"><i class="fab fa-2x fa-instagram"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <h3 class="text-white mb-4">Our Courses</h3>
+                    <div class="d-flex flex-column justify-content-start">
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Web Design</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Apps Design</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Marketing</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Research</a>
+                        <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>SEO</a>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-5">
+                    <h3 class="text-white mb-4">Quick Links</h3>
+                    <div class="d-flex flex-column justify-content-start">
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Privacy Policy</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Terms & Condition</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Regular FAQs</a>
+                        <a class="text-white-50 mb-2" href="#"><i class="fa fa-angle-right mr-2"></i>Help & Support</a>
+                        <a class="text-white-50" href="#"><i class="fa fa-angle-right mr-2"></i>Contact</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid bg-dark text-white-50 border-top py-4" style="border-color: rgba(256, 256, 256, .1) !important;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-left mb-3 mb-md-0">
+                    <p class="m-0">Copyright &copy; <a class="text-white" href="#">Your Site Name</a>. All Rights Reserved.
+                    </p>
+                </div>
+                <div class="col-md-6 text-center text-md-right">
+                    <p class="m-0">Designed by <a class="text-white" href="https://htmlcodex.com">HTML Codex</a> Distributed by <a href="https://themewagon.com" target="_blank">ThemeWagon</a></a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary rounded-0 btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/waypoints/waypoints.min.js"></script>
+    <script src="lib/counterup/counterup.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
