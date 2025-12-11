@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ course.title }} - Course Detail</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <!-- Header / Navbar -->
+    {% include 'home/navbar.html' %}
+
+    <!-- Course Detail Section -->
+    <div class="container py-5">
+        <div class="row">
+            <!-- Course Image -->
+            <div class="col-md-6">
+                {% if course.owner.avatar %}
+                    <img src="{{ course.owner.avatar.url }}" alt="{{ course.title }}" class="img-fluid">
+                {% else %}
+                    <img src="{% static 'img/default-teacher.jpg' %}" alt="{{ course.title }}" class="img-fluid">
+                {% endif %}
+            </div>
+
+            <!-- Course Info -->
+            <div class="col-md-6">
+                <h1>{{ course.title }}</h1>
+                <h5>Web design & development courses for beginners</h5>
+                <p>{{ course.overview|default:"No description available." }}</p>
+            </div>
+        </div>
+
+        <!-- Course Description -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et, tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor consetetur takimata eirmod, dolores takimata consetetur invidunt magna dolores aliquyam dolores dolore. Amet erat amet et magna</p>
+
+                <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem. Nonumy vero labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam consetetur eirmod. Kasd accusam sit ipsum sadipscing et at at sanctus et. Ipsum sit gubergren dolores et, consetetur justo invidunt at et aliquyam ut et vero clita. Diam sea sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p>
+            </div>
+        </div>
+
+        <!-- Related Courses -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3>Related Courses</h3>
+            </div>
+            {% for related in course.subject.courses.exclude(id=course.id) %}
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <img class="card-img-top" src="{{ related.owner.avatar.url|default_if_none:static('img/default-teacher.jpg') }}" alt="{{ related.title }}">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ related.title }}</h5>
+                        <p class="card-text">{{ related.overview|truncatewords:20 }}</p>
+                        <a href="{% url 'app:course_detail' related.slug %}" class="btn btn-primary">View Course</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted ml-3">No related courses available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Footer -->
+    {% include 'home/footer.html' %}
+</body>
+</html>
