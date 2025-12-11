@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ subject.title }}</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; background:#f4f6f8; margin:0; padding:0; color:#333;}
+        .container { max-width:1000px; margin:50px auto; padding:20px; background:#fff; border-radius:12px; box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+        h1 { font-size:28px; margin-bottom:30px; text-align:center;}
+        .courses-list { display:flex; flex-wrap:wrap; gap:20px; justify-content:center;}
+        .course-item { flex:1; min-width:250px; background:#f9f9f9; padding:20px; border-radius:10px; box-shadow:0 4px 12px rgba(0,0,0,0.05); transition:0.3s; }
+        .course-item:hover { transform:translateY(-5px);}
+        .course-item h3 { font-size:20px; margin-bottom:10px;}
+        .course-item p { font-size:14px; color:#555; margin-bottom:15px;}
+        .btn { display:inline-block; padding:10px 20px; background:#4e9af1; color:#fff; border-radius:8px; text-decoration:none; font-weight:600; transition:0.3s;}
+        .btn:hover { background:#367ce0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Subject: {{ subject.title }}</h1>
+
+        {% if courses %}
+            <div class="courses-list">
+                {% for course in courses %}
+                    <div class="course-item">
+                        <h3>{{ course.title }}</h3>
+                        <p>{{ course.overview|default:"No description available." }}</p>
+                        <a href="{% url 'app:course_detail' course.slug %}" class="btn">View Course</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p style="text-align:center;">No courses available in this subject.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

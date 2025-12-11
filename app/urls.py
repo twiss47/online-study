@@ -19,11 +19,10 @@ from .views import (
 app_name = 'app'  
 
 urlpatterns = [
-
     path('', home, name='home'),
-    path('home/about/', about, name='about'),
+    path('about/', about, name='about'),
     path('contact/', contact, name='contact'),
-    path('home/courses/', courses, name='courses'),
+    path('courses/', courses, name='courses'),
     path('courses/<slug:slug>/', course_detail, name='course_detail'),
     path('subjects/', subject_list, name='subject_list'),
     path('subjects/<slug:slug>/', subject_detail, name='subject_detail'),
@@ -34,9 +33,4 @@ urlpatterns = [
     path('feature/', feature, name='feature'),
     path('team/', team, name='team'),
     path('testimonial/', testimonial, name='testimonial'),
-    path('home/courses/<slug:slug>/', course_detail, name='course_detail'),
-
 ]
-
-
-
