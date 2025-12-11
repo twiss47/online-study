@@ -43,6 +43,7 @@ def subject_list(request):
     subjects = Subject.objects.all()
     return render(request, 'home/subject_list.html', {'subjects': subjects})
 
+
 def subject_detail(request, slug):
     subject = get_object_or_404(Subject, slug=slug)
     courses = subject.courses.all()
@@ -85,3 +86,9 @@ def content_detail(request, content_id):
     }
     model_name = content.content_type.model
     return render(request, template_map[model_name], {'item': item})
+
+
+
+def some_view(request):
+    subjects = Subject.objects.all()
+    return render(request, 'home/template.html', {'subjects': subjects})
