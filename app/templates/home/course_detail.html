@@ -5,63 +5,63 @@
     <meta charset="UTF-8">
     <title>{{ course.title }} - Course Detail</title>
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
-    <!-- Header / Navbar -->
+    <!-- Navbar -->
     {% include 'home/navbar.html' %}
 
-    <!-- Course Detail Section -->
     <div class="container py-5">
         <div class="row">
             <!-- Course Image -->
-            <div class="col-md-6">
-                {% if course.owner.avatar %}
-                    <img src="{{ course.owner.avatar.url }}" alt="{{ course.title }}" class="img-fluid">
+            <div class="col-md-6 mb-3">
+                {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.title }}" class="img-fluid rounded">
                 {% else %}
-                    <img src="{% static 'img/default-teacher.jpg' %}" alt="{{ course.title }}" class="img-fluid">
+                    <img src="{% static 'img/default-course.jpg' %}" alt="{{ course.title }}" class="img-fluid rounded">
                 {% endif %}
             </div>
 
             <!-- Course Info -->
             <div class="col-md-6">
                 <h1>{{ course.title }}</h1>
-                <h5>Web design & development courses for beginners</h5>
+                <h5 class="text-muted">Instructor: {{ course.owner.full_name }}</h5>
                 <p>{{ course.overview|default:"No description available." }}</p>
             </div>
         </div>
 
-        <!-- Course Description -->
-        <div class="row mt-4">
-            <div class="col-12">
-                <p>Tempor erat elitr at rebum at at clita aliquyam consetetur. Diam dolor diam ipsum et, tempor voluptua sit consetetur sit. Aliquyam diam amet diam et eos sadipscing labore. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor consetetur takimata eirmod, dolores takimata consetetur invidunt magna dolores aliquyam dolores dolore. Amet erat amet et magna</p>
-
-                <p>Sadipscing labore amet rebum est et justo gubergren. Et eirmod ipsum sit diam ut magna lorem. Nonumy vero labore lorem sanctus rebum et lorem magna kasd, stet amet magna accusam consetetur eirmod. Kasd accusam sit ipsum sadipscing et at at sanctus et. Ipsum sit gubergren dolores et, consetetur justo invidunt at et aliquyam ut et vero clita. Diam sea sea no sed dolores diam nonumy, gubergren sit stet no diam kasd vero.</p>
-            </div>
-        </div>
-
-        <!-- Related Courses -->
-        <div class="row mt-5">
-            <div class="col-12">
-                <h3>Related Courses</h3>
-            </div>
-            {% for related in course.subject.courses.exclude(id=course.id) %}
-            <div class="col-md-4">
-                <div class="card mb-4">
-                    <img class="card-img-top" src="{{ related.owner.avatar.url|default_if_none:static('img/default-teacher.jpg') }}" alt="{{ related.title }}">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ related.title }}</h5>
-                        <p class="card-text">{{ related.overview|truncatewords:20 }}</p>
-                        <a href="{% url 'app:course_detail' related.slug %}" class="btn btn-primary">View Course</a>
+        <!-- Modules Section -->
+        <div class="mt-5">
+            <h2>Modules</h2>
+            <div class="row">
+                {% for module in course.modules.all %}
+                <div class="col-md-4 mb-3">
+                    <div class="card h-100 shadow-sm">
+                        {% if module.image %}
+                            <img src="{{ module.image.url }}" class="card-img-top" alt="{{ module.title }}">
+                        {% else %}
+                            <img src="{% static 'img/default-module.jpg' %}" class="card-img-top" alt="{{ module.title }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ module.title }}</h5>
+                            <p class="card-text">{{ module.overview|truncatewords:15 }}</p>
+                            <a href="{% url 'app:module_detail' module.slug %}" class="btn btn-primary">View Contents</a>
+                        </div>
                     </div>
                 </div>
+                {% empty %}
+                <p class="text-muted ms-3">No modules available.</p>
+                {% endfor %}
             </div>
-            {% empty %}
-            <p class="text-muted ml-3">No related courses available.</p>
-            {% endfor %}
         </div>
-    </div>
+
+
 
     <!-- Footer -->
     {% include 'home/footer.html' %}
+
+    <!-- JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/main.js' %}"></script>
 </body>
 </html>

@@ -2,10 +2,15 @@ from django.shortcuts import render, get_object_or_404
 from .models import Subject, Course, Teacher, Module, Content
 from django.contrib.contenttypes.models import ContentType
 
-# Home & About
 def home(request):
     courses = Course.objects.all()
-    return render(request, 'home/index.html', {'courses': courses})
+    teachers = Teacher.objects.filter(is_active=True)
+    context = {
+        "courses": courses,
+        "teachers": teachers,
+    }
+    return render(request, "home/index.html", context)
+
 
 
 def about(request):
@@ -33,7 +38,12 @@ def feature(request):
     return render(request, 'home/feature.html')
 
 def team(request):
-    return render(request, 'home/team.html')
+    teachers = Teacher.objects.filter(is_active=True)
+    context = {
+        'teachers': teachers,
+    }
+    return render(request, 'home/team.html', context)
+
 
 def testimonial(request):
     return render(request, 'home/testimonial.html')

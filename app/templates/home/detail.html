@@ -137,126 +137,80 @@
 
     <!-- Detail Start -->
     <div class="container-fluid py-5">
-        <div class="container py-5">
-            <div class="row">
-                <!-- Left Content -->
-                <div class="col-lg-8">
-                    <div class="mb-5">
-                        <div class="section-title position-relative mb-5">
-                            <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Course Detail</h6>
-                            <h1 class="display-4">{{ course.title }}</h1>
-                        </div>
-
-                        {% if course.image %}
-                            <img class="img-fluid rounded w-100 mb-4" src="{{ course.image.url }}" alt="{{ course.title }}">
-                        {% else %}
-                            <img class="img-fluid rounded w-100 mb-4" src="{% static 'img/header.jpg' %}" alt="{{ course.title }}">
-                        {% endif %}
-
-                        <p>{{ course.overview }}</p>
-
-                        <h2 class="mb-3">Modules</h2>
-                        {% for module in modules %}
-                            <div class="module mb-3">
-                                <h5>{{ module.title }}</h5>
-                                <p>{{ module.overview|default:"No description available." }}</p>
-                                <a href="{% url 'app:module_detail' module.id %}" class="btn btn-primary btn-sm">View Contents</a>
-                            </div>
-                        {% empty %}
-                            <p>No modules available for this course.</p>
-                        {% endfor %}
+    <div class="container py-5">
+        <div class="row d-flex align-items-start">
+            <!-- Left Content -->
+            <div class="col-lg-8">
+                <div class="mb-5">
+                    <div class="section-title position-relative mb-5">
+                        <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Course Detail</h6>
+                        <h1 class="display-4">{{ course.title }}</h1>
                     </div>
 
-                    <h2 class="mb-3">Related Courses</h2>
-                    <div class="owl-carousel related-carousel position-relative" style="padding: 0 30px;">
-                        {% for related in course.subject.courses.all %}
-                            {% if related.id != course.id %}
-                            <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="{% url 'app:course_detail' related.slug %}">
-                                {% if related.image %}
-                                    <img class="img-fluid" src="{{ related.image.url }}" alt="{{ related.title }}">
-                                {% else %}
-                                    <img class="img-fluid" src="{% static 'img/courses-1.jpg' %}" alt="{{ related.title }}">
-                                {% endif %}
-                                <div class="courses-text">
-                                    <h4 class="text-center text-white px-3">{{ related.title }}</h4>
-                                    <div class="border-top w-100 mt-3">
-                                        <div class="d-flex justify-content-between p-4">
-                                            <span class="text-white"><i class="fa fa-user mr-2"></i>{{ related.owner.full_name }}</span>
-                                            <span class="text-white"><i class="fa fa-star mr-2"></i>{{ related.rating }} 
-                                                <small>({{ related.students.count }})</small>
-                                            </span>
-                                        </div>
-                                    </div>
+                    {% if course.image %}
+                        <img class="img-fluid rounded w-100 mb-4" src="{{ course.image.url }}" alt="{{ course.title }}">
+                    {% else %}
+                        <img class="img-fluid rounded w-100 mb-4" src="{% static 'img/header.jpg' %}" alt="{{ course.title }}">
+                    {% endif %}
+
+                    <p>{{ course.overview }}</p>
+
+                    <h2 class="mb-3">Modules</h2>
+                    {% for module in modules %}
+                        <div class="module mb-3">
+                            <h5>{{ module.title }}</h5>
+                            <p>{{ module.overview|default:"No description available." }}</p>
+                            <a href="{% url 'app:module_detail' module.id %}" class="btn btn-primary btn-sm">View Contents</a>
+                        </div>
+                    {% empty %}
+                        <p>No modules available for this course.</p>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Right Sidebar -->
+            <div class="col-lg-4 mt-5 mt-lg-0 d-flex">
+                <div class="bg-primary w-100 py-3 d-flex flex-column">
+                    <h3 class="text-white py-3 px-4 m-0">Course Features</h3>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Instructor</h6>
+                        <h6 class="text-white my-3">{{ course.owner.full_name }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Rating</h6>
+                        <h6 class="text-white my-3">{{ course.rating }} <small>({{ course.students.count }})</small></h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Lectures</h6>
+                        <h6 class="text-white my-3">{{ course.modules.count }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Duration</h6>
+                        <h6 class="text-white my-3">{{ course.duration }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between border-bottom px-4">
+                        <h6 class="text-white my-3">Skill level</h6>
+                        <h6 class="text-white my-3">{{ course.level }}</h6>
+                    </div>
+                    <div class="d-flex justify-content-between px-4">
+                        <h6 class="text-white my-3">Language</h6>
+                        <h6 class="text-white my-3">{{ course.language }}</h6>
+                    </div>
+                    <h5 class="text-white py-3 px-4 m-0">Course Price: ${{ course.price }}</h5>
+                    <div class="py-3 px-4 mt-auto">
+                        <a class="btn btn-block btn-secondary py-3 px-5" href="">Enroll Now</a>
+                    </div>
                                 </div>
-                            </a>
-                            {% endif %}
-                        {% empty %}
-                            <p>No related courses.</p>
-                        {% endfor %}
-                    </div>
-                </div>
-
-                <!-- Right Sidebar -->
-                <div class="col-lg-4 mt-5 mt-lg-0">
-                    <div class="bg-primary mb-5 py-3">
-                        <h3 class="text-white py-3 px-4 m-0">Course Features</h3>
-                        <div class="d-flex justify-content-between border-bottom px-4">
-                            <h6 class="text-white my-3">Instructor</h6>
-                            <h6 class="text-white my-3">{{ course.owner.full_name }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom px-4">
-                            <h6 class="text-white my-3">Rating</h6>
-                            <h6 class="text-white my-3">{{ course.rating }} <small>({{ course.students.count }})</small></h6>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom px-4">
-                            <h6 class="text-white my-3">Lectures</h6>
-                            <h6 class="text-white my-3">{{ course.modules.count }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom px-4">
-                            <h6 class="text-white my-3">Duration</h6>
-                            <h6 class="text-white my-3">{{ course.duration }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between border-bottom px-4">
-                            <h6 class="text-white my-3">Skill level</h6>
-                            <h6 class="text-white my-3">{{ course.level }}</h6>
-                        </div>
-                        <div class="d-flex justify-content-between px-4">
-                            <h6 class="text-white my-3">Language</h6>
-                            <h6 class="text-white my-3">{{ course.language }}</h6>
-                        </div>
-                        <h5 class="text-white py-3 px-4 m-0">Course Price: ${{ course.price }}</h5>
-                        <div class="py-3 px-4">
-                            <a class="btn btn-block btn-secondary py-3 px-5" href="">Enroll Now</a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </div>  
             </div>
         </div>
     </div>
     <!-- Detail End -->
     
-    <!-- Modules Section -->
-    <div class="container mb-5">
-        <h2 class="mb-4 font-weight-bold">Modules</h2>
-        <div class="row">
-            {% for module in modules %}
-            <div class="col-md-6 mb-4">
-                <div class="card shadow-sm h-100 border-0">
-                    <div class="card-body">
-                        <h5 class="card-title font-weight-bold">{{ module.title }}</h5>
-                        <p class="card-text text-muted">{{ module.overview|truncatewords:15 }}</p>
-                        <a href="{% url 'app:module_detail' module.id %}" class="btn btn-primary btn-sm">View Contents</a>
-                    </div>
-                </div>
-            </div>
-            {% empty %}
-            <div class="col-12">
-                <p class="text-muted">No modules available for this course.</p>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
-
+  
     <!-- Related Courses Section -->
     <div class="container mb-5">
         <h2 class="mb-4 font-weight-bold">Related Courses</h2>
