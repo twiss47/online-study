@@ -1,4 +1,6 @@
 from django.urls import path
+from django.conf import settings
+from django.conf.urls.static import static
 from .views import (
     home,
     about,
@@ -33,4 +35,8 @@ urlpatterns = [
     path('feature/', feature, name='feature'),
     path('team/', team, name='team'),
     path('testimonial/', testimonial, name='testimonial'),
-]
+] 
+
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

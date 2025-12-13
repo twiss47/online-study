@@ -156,8 +156,8 @@
                 {% for course in courses %}
                 <div class="col-lg-4 col-md-6 pb-4">
                     <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="{% url 'app:course_detail' course.slug %}">
-                        {% if course.owner.avatar %}
-                            <img class="img-fluid" src="{{ course.owner.avatar.url }}" alt="{{ course.title }}">
+                        {% if course.image %}
+                            <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }}">
                         {% else %}
                             <img class="img-fluid" src="{% static 'img/default-teacher.jpg' %}" alt="{{ course.title }}">
                         {% endif %}

@@ -7,7 +7,7 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     
     <!-- Favicon -->
-    <link href="{% static 'img/favicon.ico' %}" rel="icon">
+    <link rel="icon" href="{% static 'img/logo.png' %}" type="image/png">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -143,7 +143,7 @@
             <div class="row">
                 <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 500px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100" src="img/about.jpg" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100"src="{% static 'img/about.jpg' %}"style="object-fit: cover;">
                     </div>
                 </div>
                 <div class="col-lg-7">
@@ -225,7 +225,7 @@
                 </div>
                 <div class="col-lg-5" style="min-height: 500px;">
                     <div class="position-relative h-100">
-                        <img class="position-absolute w-100 h-100" src="img/feature.jpg" style="object-fit: cover;">
+                        <img class="position-absolute w-100 h-100" src="{% static 'img/feature.jpg' %}" style="object-fit: cover;">
                     </div>
                 </div>
             </div>
@@ -250,10 +250,10 @@
                 {% for course in courses %}
                 <div class="col-lg-4 col-md-6 pb-4">
                     <a class="courses-list-item position-relative d-block overflow-hidden mb-2" href="{% url 'app:course_detail' course.slug %}">
-                        {% if course.owner.avatar %}
-                            <img class="img-fluid" src="{{ course.owner.avatar.url }}" alt="{{ course.title }}">
+                        {% if course.image %}
+                            <img class="img-fluid" src="{{ course.image.url }}" alt="{{ course.title }}">
                         {% else %}
-                            <img class="img-fluid" src="{% static 'img/default-teacher.jpg' %}" alt="{{ course.title }}">
+                            <img class="img-fluid" src="{% static 'img/default-course.jpg' %}" alt="{{ course.title }}">
                         {% endif %}
                         <div class="courses-text">
                             <h4 class="text-center text-white px-3">{{ course.title }}</h4>
@@ -273,7 +273,6 @@
     <!-- Courses End -->
 
 
-
     <!-- Team Start -->
     <div class="container-fluid py-5">
         <div class="container py-5">
@@ -281,67 +280,27 @@
                 <h6 class="d-inline-block position-relative text-secondary text-uppercase pb-2">Instructors</h6>
                 <h1 class="display-4">Meet Our Instructors</h1>
             </div>
+
             <div class="owl-carousel team-carousel position-relative" style="padding: 0 30px;">
-                <div class="team-item">
-                    <img class="img-fluid w-100" src="img/team-1.jpg" alt="">
-                    <div class="bg-light text-center p-4">
-                        <h5 class="mb-3">Instructor Name</h5>
-                        <p class="mb-2">Web Design & Development</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-youtube"></i></a>
-                        </div>
+
+                {% for teacher in teachers %}
+                    <div class="team-item">
+                        {% if teacher.avatar %}
+                            <img class="img-fluid w-100" src="{{ teacher.avatar.url }}" alt="{{ teacher.full_name }}">
+                        {% else %}
+                            <img class="img-fluid w-100" src="{% static 'img/default-teacher.jpg' %}" alt="No Avatar">
+                        {% endif %}
+                        <h5>{{ teacher.full_name }}</h5>
+                        <p>{{ teacher.expertise }}</p>
                     </div>
-                </div>
-                <div class="team-item">
-                    <img class="img-fluid w-100" src="img/team-2.jpg" alt="">
-                    <div class="bg-light text-center p-4">
-                        <h5 class="mb-3">Instructor Name</h5>
-                        <p class="mb-2">Web Design & Development</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-item">
-                    <img class="img-fluid w-100" src="img/team-3.jpg" alt="">
-                    <div class="bg-light text-center p-4">
-                        <h5 class="mb-3">Instructor Name</h5>
-                        <p class="mb-2">Web Design & Development</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="team-item">
-                    <img class="img-fluid w-100" src="img/team-4.jpg" alt="">
-                    <div class="bg-light text-center p-4">
-                        <h5 class="mb-3">Instructor Name</h5>
-                        <p class="mb-2">Web Design & Development</p>
-                        <div class="d-flex justify-content-center">
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-twitter"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-facebook-f"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-linkedin-in"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-instagram"></i></a>
-                            <a class="mx-1 p-1" href="#"><i class="fab fa-youtube"></i></a>
-                        </div>
-                    </div>
-                </div>
+                {% endfor %}
+
+
             </div>
         </div>
     </div>
     <!-- Team End -->
+
 
 
     <!-- Testimonial Start -->
@@ -361,7 +320,7 @@
                             <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
                             <p>Sed et elitr ipsum labore dolor diam, ipsum duo vero sed sit est est ipsum eos clita est ipsum. Est nonumy tempor at kasd. Sed at dolor duo ut dolor, et justo erat dolor magna sed stet amet elitr duo lorem</p>
                             <div class="d-flex flex-shrink-0 align-items-center mt-4">
-                                <img class="img-fluid mr-4" src="img/testimonial-2.jpg" alt="">
+                                <img class="img-fluid mr-4" src="{% static 'img/testimonial-2.jpg' %}" alt="">
                                 <div>
                                     <h5>Student Name</h5>
                                     <span>Web Design</span>
@@ -372,7 +331,7 @@
                             <i class="fa fa-3x fa-quote-left text-primary mb-4"></i>
                             <p>Sed et elitr ipsum labore dolor diam, ipsum duo vero sed sit est est ipsum eos clita est ipsum. Est nonumy tempor at kasd. Sed at dolor duo ut dolor, et justo erat dolor magna sed stet amet elitr duo lorem</p>
                             <div class="d-flex flex-shrink-0 align-items-center mt-4">
-                                <img class="img-fluid mr-4" src="img/testimonial-1.jpg" alt="">
+                                <img class="img-fluid mr-4" src="{% static 'img/testimonial-1.jpg' %}" alt="">
                                 <div>
                                     <h5>Student Name</h5>
                                     <span>Web Design</span>
@@ -536,17 +495,18 @@
     <!-- Back to Top -->
     <a href="#" class="btn btn-lg btn-primary rounded-0 btn-lg-square back-to-top"><i class="fa fa-angle-double-up"></i></a>
 
+    
+    <!-- JS -->
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-    <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
-    <script src="lib/easing/easing.min.js"></script>
-    <script src="lib/waypoints/waypoints.min.js"></script>
-    <script src="lib/counterup/counterup.min.js"></script>
-    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+    <!-- JS Libraries -->
+    <script src="{% static 'lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'lib/waypoints/waypoints.min.js' %}"></script>
+    <script src="{% static 'lib/counterup/counterup.min.js' %}"></script>
+    <script src="{% static 'lib/owlcarousel/owl.carousel.min.js' %}"></script>
+    <!-- Main JS -->
+    <script src="{% static 'js/main.js' %}"></script>
 
-    <!-- Template Javascript -->
-    <script src="js/main.js"></script>
 </body>
-
 </html>
