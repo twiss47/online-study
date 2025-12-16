@@ -123,7 +123,7 @@
                             aria-haspopup="true" aria-expanded="false">Courses</button>
                         <div class="dropdown-menu">
                             {% for course in courses %}
-                                <a class="dropdown-item" href="{% url 'app:courses' %}">{{ course.title }}</a>
+                                <a class="dropdown-item" href="{% url 'app:course_detail' course.slug %}">{{ course.title }}</a>
                             {% empty %}
                                 <a class="dropdown-item" href="#">No courses available</a>
                             {% endfor %}

@@ -1,104 +1,165 @@
+from django.views.generic import TemplateView, ListView, DetailView
+from django.views import View
 from django.shortcuts import render, get_object_or_404
-from .models import Subject, Course, Teacher, Module, Content
-from django.contrib.contenttypes.models import ContentType
+from .models import (
+    Course,
+    Teacher,
+    Subject,
+    Module,
+    Content
 
-def home(request):
-    courses = Course.objects.all()
-    teachers = Teacher.objects.filter(is_active=True)
-    context = {
-        "courses": courses,
-        "teachers": teachers,
-    }
-    return render(request, "home/index.html", context)
+)
 
+#============= Home =============
 
-
-def about(request):
-    return render(request, 'home/about.html')
-
-def contact(request):
-    return render(request, 'home/contact.html')
-
-# Courses
-def courses(request):
-    all_courses = Course.objects.all()
-    return render(request, 'home/courses.html', {'courses': all_courses})
+class HomeView(TemplateView):
+    template_name = 'home/index.html'
 
 
-def course_detail(request, slug):
-    course = get_object_or_404(Course, slug=slug)
-    modules = course.modules.all()
-    return render(request, 'home/detail.html', {
-        'course': course,
-        'modules': modules,
-    })
-
-# Additional Pages
-def feature(request):
-    return render(request, 'home/feature.html')
-
-def team(request):
-    teachers = Teacher.objects.filter(is_active=True)
-    context = {
-        'teachers': teachers,
-    }
-    return render(request, 'home/team.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courses'] = Course.objects.all()
+        context['teachers'] = Teacher.objects.filter(is_active=True)
+        return context
+    
 
 
-def testimonial(request):
-    return render(request, 'home/testimonial.html')
-
-# Subjects
-def subject_list(request):
-    subjects = Subject.objects.all()
-    return render(request, 'home/subject_list.html', {'subjects': subjects})
+class AboutView(TemplateView):
+    template_name = 'home/about.html'
 
 
-def subject_detail(request, slug):
-    subject = get_object_or_404(Subject, slug=slug)
-    courses = subject.courses.all()
-    return render(request, 'home/subject_detail.html', {
-        'subject': subject,
-        'courses': courses
-    })
+class ContactView(TemplateView):
+    template_name = 'home/contact.html'
 
-# Teachers
-def teacher_list(request):
-    teachers = Teacher.objects.filter(is_active=True)
-    return render(request, 'home/teacher_list.html', {'teachers': teachers})
 
-def teacher_detail(request, pk):
-    teacher = get_object_or_404(Teacher, pk=pk)
-    courses = teacher.courses.all()
-    return render(request, 'home/teacher_detail.html', {
-        'teacher': teacher,
-        'courses': courses,
-    })
+class FeatureView(TemplateView):
+    template_name = 'home/feature.html'
 
-# Modules
-def module_detail(request, module_id):
-    module = get_object_or_404(Module, id=module_id)
-    contents = module.contents.all()
-    return render(request, 'home/module_detail.html', {
-        'module': module,
-        'contents': contents
-    })
 
-# Content
-def content_detail(request, content_id):
-    content = get_object_or_404(Content, id=content_id)
-    item = content.item
-    template_map = {
-        'text': 'home/text.html',
-        'image': 'home/image.html',
-        'video': 'home/video.html',
-        'file': 'home/file.html',
-    }
-    model_name = content.content_type.model
-    return render(request, template_map[model_name], {'item': item})
+class Testimonial(TemplateView):
+    template_name = 'home/testimonial.html'
 
 
 
-def some_view(request):
-    subjects = Subject.objects.all()
-    return render(request, 'home/template.html', {'subjects': subjects})
+
+#============= Course =============
+
+class CourseList(ListView):
+    model = Course
+    template_name = 'home/courses.html'
+    context_object_name = 'courses'
+
+
+class CourseDetailView(DetailView):
+    model = Course
+    template_name = "home/detail.html"
+    context_object_name = "course"
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['modules'] = self.object.modules.all()
+        context['courses'] = Course.objects.all()  
+        return context
+
+
+
+
+
+#============= Subject =============
+
+class SubjectListView(ListView):
+    model = Subject
+    template_name = "home/subject_list.html"
+    context_object_name = "subjects"
+
+class SubjectDetailView(DetailView):
+    model = Subject
+    template_name = "home/subject_detail.html"
+    context_object_name = "subject"
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courses'] = self.object.courses.all()
+        return context
+
+
+
+
+#============= Teachers =============
+
+class TeacherListView(ListView):
+    model = Teacher
+    template_name = "home/teacher_list.html"
+    context_object_name = "teachers"
+
+    def get_queryset(self):
+        return Teacher.objects.filter(is_active=True)
+
+class TeacherDetailView(DetailView):
+    model = Teacher
+    template_name = "home/teacher_detail.html"
+    context_object_name = "teacher"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courses'] = self.object.courses.all()
+        return context
+
+
+
+#============= Module =============
+
+class ModuleDetailView(DetailView):
+    model = Module
+    template_name = "home/module_detail.html"
+    pk_url_kwarg = 'module_id'
+    context_object_name = 'module'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contents'] = self.object.contents.all()
+        return context
+
+
+#============= Content =============
+
+class ContentDetailView(View):
+    def get(self, request, content_id):
+        content = get_object_or_404(Content, id=content_id)
+        item = content.item
+        template_map = {
+            'text': 'home/text.html',
+            'image': 'home/image.html',
+            'video': 'home/video.html',
+            'file': 'home/file.html',
+        }
+        model_name = content.content_type.model
+        return render(request, template_map[model_name], {'item': item})
+    
+
+
+
+
+#============= Some View =============
+
+class SomeView(ListView):
+    model = Subject
+    template_name = "home/template.html"
+    context_object_name = "subjects"
+
+
+
+
+#============= Team View =============
+
+class TeamView(ListView):
+    model = Teacher
+    template_name = "home/team.html"
+    context_object_name = "teachers"
+
+    def get_queryset(self):
+        return Teacher.objects.filter(is_active=True)

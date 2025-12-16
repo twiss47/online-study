@@ -2,41 +2,40 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import (
-    home,
-    about,
-    courses,
-    subject_list,
-    subject_detail,
-    course_detail,
-    teacher_list,
-    teacher_detail,
-    module_detail,
-    content_detail,
-    feature,
-    team,
-    testimonial,
-    contact
+    HomeView,
+    AboutView,
+    ContactView,
+    CourseList,
+    CourseDetailView,
+    SubjectListView,
+    SubjectDetailView,
+    TeacherListView,
+    TeacherDetailView,
+    ModuleDetailView,
+    ContentDetailView,
+    FeatureView,
+    TeamView,
+    Testimonial,
 )
 
-app_name = 'app'  
+app_name = 'app'
 
 urlpatterns = [
-    path('', home, name='home'),
-    path('about/', about, name='about'),
-    path('contact/', contact, name='contact'),
-    path('courses/', courses, name='courses'),
-    path('courses/<slug:slug>/', course_detail, name='course_detail'),
-    path('subjects/', subject_list, name='subject_list'),
-    path('subjects/<slug:slug>/', subject_detail, name='subject_detail'),
-    path('teachers/', teacher_list, name='teacher_list'),
-    path('teachers/<int:pk>/', teacher_detail, name='teacher_detail'),
-    path('module/<int:module_id>/', module_detail, name='module_detail'),
-    path('content/<int:content_id>/', content_detail, name='content_detail'),
-    path('feature/', feature, name='feature'),
-    path('team/', team, name='team'),
-    path('testimonial/', testimonial, name='testimonial'),
-] 
-
+    path('', HomeView.as_view(), name='home'),
+    path('about/', AboutView.as_view(), name='about'),
+    path('contact/', ContactView.as_view(), name='contact'),
+    path('courses/', CourseList.as_view(), name='courses'),
+    path('courses/<slug:slug>/', CourseDetailView.as_view(), name='course_detail'),
+    path('subjects/', SubjectListView.as_view(), name='subject_list'),
+    path('subjects/<slug:slug>/', SubjectDetailView.as_view(), name='subject_detail'),
+    path('teachers/', TeacherListView.as_view(), name='teacher_list'),
+    path('teachers/<int:pk>/', TeacherDetailView.as_view(), name='teacher_detail'),
+    path('module/<int:module_id>/', ModuleDetailView.as_view(), name='module_detail'),
+    path('content/<int:content_id>/', ContentDetailView.as_view(), name='content_detail'),
+    path('feature/', FeatureView.as_view(), name='feature'),
+    path('team/', TeamView.as_view(), name='team'),
+    path('testimonial/', Testimonial.as_view(), name='testimonial'),
+]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
