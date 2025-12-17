@@ -133,3 +133,24 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
+
+#Email confirm
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'REMOVED'  # sizning email
+EMAIL_HOST_PASSWORD = 'REMOVED'       
+
+
+
+LOGIN_URL = 'login'  
+LOGOUT_REDIRECT_URL = 'login'
+
+
+
+LOGIN_REDIRECT_URL = 'app:profile'  
+LOGOUT_REDIRECT_URL = 'app:home'    

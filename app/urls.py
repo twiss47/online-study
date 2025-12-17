@@ -16,6 +16,12 @@ from .views import (
     FeatureView,
     TeamView,
     Testimonial,
+    RegisterView,
+    UserLoginView,
+    UserLogoutView,
+    ActivateAccountView,
+    ProfileView,
+    EditProfileView,
 )
 
 app_name = 'app'
@@ -35,7 +41,22 @@ urlpatterns = [
     path('feature/', FeatureView.as_view(), name='feature'),
     path('team/', TeamView.as_view(), name='team'),
     path('testimonial/', Testimonial.as_view(), name='testimonial'),
+    path('login/', UserLoginView.as_view(), name='login'),
+    path('logout/', UserLogoutView.as_view(), name='logout'),
+    path('profile/edit/', EditProfileView.as_view(), name='edit_profile'),
+
+]
+
+
+urlpatterns += [
+    path('register/', RegisterView.as_view(), name='register'),
+    path('activate/<uidb64>/<token>/', ActivateAccountView.as_view(), name='activate'),
+     path('profile/', ProfileView.as_view(), name='profile'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+
+
+

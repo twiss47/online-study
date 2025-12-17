@@ -1,0 +1,96 @@
+{% load static %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-lg border-0 rounded-4" style="background: linear-gradient(145deg, #f9f9f9, #e6f0ff);">
+                <!-- Card Header -->
+                <div class="card-header bg-gradient-primary text-white text-center rounded-top-4 py-3">
+                    <h4 class="mb-0">Edit Your Profile</h4>
+                </div>
+
+                <!-- Card Body -->
+                <div class="card-body p-4">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {{ form.non_field_errors }}
+
+                        <!-- Avatar Preview -->
+                        <div class="text-center mb-4">
+                            <img src="{% if form.instance.avatar %}{{ form.instance.avatar.url }}{% else %}{% static 'avatars/default.png' %}{% endif %}" 
+                                 alt="Avatar" 
+                                 class="rounded-circle shadow-sm"
+                                 style="width: 120px; height: 120px; object-fit: cover; border: 3px solid #4e73df; transition: 0.3s; cursor: pointer;"
+                                 id="avatarPreview">
+                        </div>
+
+                        <!-- Avatar Input -->
+                        <div class="mb-3">
+                            {{ form.avatar.label_tag }}
+                            {{ form.avatar }}
+                            {{ form.avatar.errors }}
+                        </div>
+
+                        <!-- Bio Input -->
+                        <div class="mb-4">
+                            {{ form.bio.label_tag }}
+                            {{ form.bio }}
+                            {{ form.bio.errors }}
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm" style="border-radius: 50px; transition: 0.3s;">
+                            Save Changes
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Optional JavaScript for Avatar Preview -->
+<script>
+    const avatarInput = document.getElementById("id_avatar");
+    const avatarPreview = document.getElementById("avatarPreview");
+
+    avatarInput.addEventListener("change", function(){
+        const file = this.files[0];
+        if(file){
+            const reader = new FileReader();
+            reader.onload = function(e){
+                avatarPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<style>
+    /* Gradient button hover effect */
+    .btn-primary:hover {
+        background: linear-gradient(90deg, #4e73df, #1cc88a);
+        border-color: #1cc88a;
+    }
+
+    /* Input fields style */
+    input, textarea {
+        border-radius: 0.5rem !important;
+        border: 1px solid #ced4da !important;
+        padding: 0.6rem 1rem !important;
+        transition: 0.3s;
+    }
+    input:focus, textarea:focus {
+        border-color: #4e73df !important;
+        box-shadow: 0 0 5px rgba(78, 115, 223, 0.5) !important;
+    }
+
+    /* Card shadow hover */
+    .card:hover {
+        transform: translateY(-5px);
+        transition: all 0.3s;
+        box-shadow: 0 0.5rem 1rem rgba(0,0,0,0.15);
+    }
+</style>
+{% endblock %}

@@ -60,7 +60,7 @@
     <!-- Topbar End -->
 
 
-   <!-- Navbar Start --> 
+    <!-- Navbar Start --> 
     <div class="container-fluid p-0">
         <nav class="navbar navbar-expand-lg bg-white navbar-light py-3 py-lg-0 px-lg-5">
             <a href="{% url 'app:home' %}" class="navbar-brand ml-lg-3">
@@ -99,7 +99,25 @@
 
                     <a href="{% url 'app:contact' %}" class="nav-item nav-link">Contact</a>
                 </div>
-                <a href="" class="btn btn-primary py-2 px-4 d-none d-lg-block">Join Us</a>
+
+                {% if user.is_authenticated %}
+                    <div class="nav-item dropdown d-flex align-items-center">
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                            👋 {{ user.username }}
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{% url 'app:profile' %}" class="dropdown-item">Profile</a>
+                            <form action="{% url 'app:logout' %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="dropdown-item">Logout</button>
+                            </form>
+                        </div>
+                    </div>
+                {% else %}
+                    <a href="{% url 'app:login' %}" class="btn btn-primary py-2 px-4">
+                        Join Us
+                    </a>
+                {% endif %}
             </div>
         </nav>
     </div>

@@ -1,0 +1,160 @@
+{% load static %}
+
+{% block content %}
+<div class="edit-profile-container">
+    <div class="profile-card">
+        <h2>Edit Profile</h2>
+        <form id="editProfileForm" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Avatar -->
+            <div class="avatar-wrapper">
+                <img id="avatarPreview" src="{{ user.profile.avatar.url }}" alt="Avatar">
+                <label for="avatarInput" class="avatar-label">
+                    Change Avatar
+                    <input type="file" id="avatarInput" name="avatar" accept="image/*" hidden>
+                </label>
+            </div>
+
+            <!-- Username -->
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+
+            <!-- Bio -->
+            <div class="input-group">
+                <label for="bio">Bio</label>
+                <textarea id="bio" name="bio" rows="4" placeholder="Tell something about yourself...">{{ user.profile.bio }}</textarea>
+            </div>
+
+            <!-- Save Button -->
+            <button type="submit" class="save-btn">Save Changes</button>
+        </form>
+    </div>
+</div>
+
+<!-- JavaScript for Avatar Preview -->
+<script>
+    const avatarInput = document.getElementById('avatarInput');
+    const avatarPreview = document.getElementById('avatarPreview');
+
+    avatarInput.addEventListener('change', function() {
+        const file = this.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                avatarPreview.src = e.target.result;
+            }
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+
+<style>
+/* ===== Container ===== */
+.edit-profile-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 50px 20px;
+    background: #f5f7fa;
+    min-height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ===== Card ===== */
+.profile-card {
+    background: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+    transition: transform 0.3s;
+}
+.profile-card:hover {
+    transform: translateY(-5px);
+}
+
+/* ===== Heading ===== */
+.profile-card h2 {
+    margin-bottom: 30px;
+    color: #333;
+}
+
+/* ===== Avatar ===== */
+.avatar-wrapper {
+    position: relative;
+    margin-bottom: 25px;
+}
+.avatar-wrapper img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #4a90e2;
+    transition: transform 0.3s;
+}
+.avatar-wrapper img:hover {
+    transform: scale(1.05);
+}
+.avatar-label {
+    display: inline-block;
+    margin-top: 10px;
+    cursor: pointer;
+    color: #4a90e2;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+.avatar-label:hover {
+    color: #1d5bbf;
+}
+
+/* ===== Input Groups ===== */
+.input-group {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: #555;
+}
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 5px rgba(74, 144, 226, 0.4);
+}
+
+/* ===== Save Button ===== */
+.save-btn {
+    width: 100%;
+    padding: 14px;
+    background: #4a90e2;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+}
+.save-btn:hover {
+    background: #1d5bbf;
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}
+    
