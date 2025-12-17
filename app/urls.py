@@ -51,7 +51,7 @@ urlpatterns = [
 urlpatterns += [
     path('register/', RegisterView.as_view(), name='register'),
     path('activate/<uidb64>/<token>/', ActivateAccountView.as_view(), name='activate'),
-     path('profile/', ProfileView.as_view(), name='profile'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 ]
 
 if settings.DEBUG:
