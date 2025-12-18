@@ -1,166 +1,213 @@
 {% load static %}
 {% block content %}
 
-<div class="container profile-page">
-    <div class="row">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        <!-- Left Sidebar -->
-        <div class="col-md-3 sidebar">
-            <div class="avatar-section text-center">
-                <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'avatars/default.png' %}{% endif %}" 
-                     alt="Avatar" class="avatar-img">
-                <h4 class="mt-2">{{ profile.user.username }}</h4>
-                {% if profile.bio %}
-                    <p class="bio">{{ profile.bio }}</p>
-                {% endif %}
+<div class="profile-wrapper">
+    <div class="profile-card">
+
+        <!-- LEFT -->
+        <div class="profile-left">
+            <div class="avatar-box">
+                <img src="{% if profile.avatar %}{{ profile.avatar.url }}{% else %}{% static 'avatars/default.png' %}{% endif %}" alt="Avatar">
+            </div>
+
+            <h2>{{ profile.user.username }}</h2>
+
+            {% if profile.bio %}
+                <p class="bio">{{ profile.bio }}</p>
+            {% else %}
+                <p class="bio muted">No bio added yet</p>
+            {% endif %}
+
+            <div class="actions">
+                <a href="{% url 'app:home' %}" class="btn btn-outline">
+                    <i class="fa fa-house"></i> Home
+                </a>
+
+                <a href="{% url 'app:edit_profile' %}" class="btn btn-primary">
+                    <i class="fa fa-pen"></i> Edit Profile
+                </a>
+
                 <form method="POST" action="{% url 'app:logout' %}">
                     {% csrf_token %}
-                    <button type="submit" class="btn logout-btn"><i class="fa fa-sign-out-alt"></i> Logout</button>
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fa fa-right-from-bracket"></i> Logout
+                    </button>
                 </form>
             </div>
-
-            <!-- Sidebar Menu -->
-            <ul class="sidebar-menu">
-                <li class="active">Profile</li>
-                <div class="d-flex justify-content-center gap-3 mt-4">
-                <a href="{% url 'app:home' %}" class="btn btn-outline-primary btn-lg fw-bold shadow-sm" style="border-radius: 50px; transition: 0.3s;">
-                    Home
-                </a>
-                <a href="{% url 'app:edit_profile' %}" class="btn btn-primary btn-lg fw-bold shadow-sm" style="border-radius: 50px; transition: 0.3s;">
-                    Edit Profile
-                </a>
-            </div>
-
-            <style>
-                /* Primary button hover gradient */
-                .btn-primary:hover {
-                    background: linear-gradient(90deg, #4e73df, #1cc88a);
-                    border-color: #1cc88a;
-                    color: white;
-                }
-
-                /* Outline button hover effect */
-                .btn-outline-primary:hover {
-                    background: #4e73df;
-                    color: white;
-                    border-color: #4e73df;
-                }
-
-                /* Button shadow and smooth transition */
-                .btn {
-                    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-                }
-            </style>
-
-
-                
-            </ul>
         </div>
 
+        <!-- RIGHT -->
+        <div class="profile-right">
+            <h3>Account Overview</h3>
 
+            <div class="info-grid">
+                <div class="info-card">
+                    <i class="fa fa-user"></i>
+                    <span>Username</span>
+                    <strong>{{ profile.user.username }}</strong>
+                </div>
 
+                <div class="info-card">
+                    <i class="fa fa-envelope"></i>
+                    <span>Email</span>
+                    <strong>{{ profile.user.email }}</strong>
+                </div>
+            </div>
+        </div>
 
-<!-- CSS -->
+    </div>
+</div>
+
 <style>
-body {
-    background: #f9f9f9;
-    font-family: 'Poppins', sans-serif;
-}
-.profile-page {
-    margin-top: 50px;
+body{
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg,#eef2ff,#f8fafc);
 }
 
-/* Sidebar */
-.sidebar {
-    background: white;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-    height: 100%;
-}
-.avatar-section .avatar-img {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #007bff;
-    transition: transform 0.3s, box-shadow 0.3s;
-}
-.avatar-section .avatar-img:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(0,123,255,0.6);
-}
-.bio {
-    font-size: 0.9rem;
-    color: #666;
-}
-.logout-btn {
-    margin-top: 10px;
-    width: 100%;
-    background: #ff4d4f;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 0;
-    transition: background 0.3s;
-}
-.logout-btn:hover {
-    background: #e63946;
+/* Wrapper */
+.profile-wrapper{
+    min-height: 100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:40px 15px;
 }
 
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px;
-}
-.sidebar-menu li {
-    padding: 10px 0;
-    font-weight: 500;
-    cursor: pointer;
-    color: #555;
-    transition: color 0.3s;
-}
-.sidebar-menu li.active, .sidebar-menu li:hover {
-    color: #007bff;
+/* Main Card */
+.profile-card{
+    width:100%;
+    max-width:1100px;
+    display:grid;
+    grid-template-columns:350px 1fr;
+    background:rgba(255,255,255,0.85);
+    backdrop-filter: blur(20px);
+    border-radius:24px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.1);
+    overflow:hidden;
 }
 
-/* Main Content */
-.main-content {
-    padding-left: 30px;
-}
-.section {
-    margin-bottom: 40px;
-}
-.time-spent .task-bar {
-    background: #e6f0ff;
-    padding: 10px 15px;
-    border-radius: 10px;
-    margin: 8px 0;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.3s;
-}
-.time-spent .task-bar:hover {
-    background: #cce0ff;
-    transform: translateX(5px);
-}
-.time-spent .task-bar span {
-    font-weight: 500;
-    color: #007bff;
+/* LEFT */
+.profile-left{
+    padding:40px 30px;
+    text-align:center;
+    background:linear-gradient(180deg,#ffffff,#f3f6ff);
 }
 
-/* Team Members */
-.team-members .team-avatar {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    border: 2px solid #007bff;
-    object-fit: cover;
-    transition: transform 0.3s, box-shadow 0.3s;
+.avatar-box img{
+    width:140px;
+    height:140px;
+    object-fit:cover;
+    border-radius:50%;
+    border:4px solid #4f46e5;
+    transition:0.4s;
 }
-.team-members .team-avatar:hover {
-    transform: scale(1.2);
-    box-shadow: 0 0 10px rgba(0,123,255,0.5);
+.avatar-box img:hover{
+    transform:scale(1.12) rotate(2deg);
+    box-shadow:0 0 30px rgba(79,70,229,0.5);
+}
+
+.profile-left h2{
+    margin-top:15px;
+    font-weight:700;
+}
+
+.bio{
+    font-size:14px;
+    color:#555;
+    margin:10px 0 25px;
+}
+.muted{color:#999}
+
+/* Buttons */
+.actions{
+    display:flex;
+    flex-direction:column;
+    gap:12px;
+}
+.btn{
+    padding:12px;
+    border-radius:50px;
+    border:none;
+    font-weight:600;
+    cursor:pointer;
+    transition:0.3s;
+}
+.btn i{margin-right:6px}
+
+.btn-primary{
+    background:linear-gradient(90deg,#4f46e5,#6366f1);
+    color:#fff;
+}
+.btn-primary:hover{
+    transform:translateY(-2px);
+    box-shadow:0 10px 30px rgba(79,70,229,0.5);
+}
+
+.btn-outline{
+    border:2px solid #4f46e5;
+    color:#4f46e5;
+    background:transparent;
+}
+.btn-outline:hover{
+    background:#4f46e5;
+    color:#fff;
+}
+
+.btn-danger{
+    background:#ef4444;
+    color:#fff;
+}
+.btn-danger:hover{
+    background:#dc2626;
+}
+
+/* RIGHT */
+.profile-right{
+    padding:40px;
+}
+.profile-right h3{
+    font-weight:700;
+    margin-bottom:30px;
+}
+
+/* Info cards */
+.info-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:20px;
+}
+.info-card{
+    background:#fff;
+    border-radius:18px;
+    padding:25px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.05);
+    transition:0.3s;
+}
+.info-card:hover{
+    transform:translateY(-5px);
+}
+.info-card i{
+    font-size:24px;
+    color:#4f46e5;
+}
+.info-card span{
+    display:block;
+    margin-top:8px;
+    font-size:13px;
+    color:#777;
+}
+.info-card strong{
+    font-size:16px;
+}
+
+/* Responsive */
+@media(max-width:900px){
+    .profile-card{
+        grid-template-columns:1fr;
+    }
 }
 </style>
 

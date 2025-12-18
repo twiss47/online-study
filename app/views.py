@@ -256,17 +256,15 @@ class ActivateAccountView(View):
         else:
             return render(request, 'home/activation_invalid.html', {'message': "Activation link is invalid or expired."})
 
-# Profile View
-from django.contrib.auth.mixins import LoginRequiredMixin
 
-class ProfileView(LoginRequiredMixin, View):
-    login_url = reverse_lazy('app:login')
+class ProfileView(LoginRequiredMixin, TemplateView):
+    template_name = "home/profile.html"
 
-    def get(self, request):
-        profile = Profile.objects.get(user=request.user)
-        return render(request, 'home/profile.html', {'profile': profile})
-
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        profile, created = Profile.objects.get_or_create(user=self.request.user)
+        context['profile'] = profile
+        return context
 
 
 
