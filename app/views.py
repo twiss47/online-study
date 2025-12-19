@@ -269,19 +269,6 @@ class ProfileView(LoginRequiredMixin, TemplateView):
 
 
 
-
-class EditProfileView(LoginRequiredMixin, UpdateView):
-    model = Profile
-    fields = ['avatar', 'bio', ] 
-    success_url = reverse_lazy('app:profile')  
-
-    def get_object(self):
-        profile, created = Profile.objects.get_or_create(user=self.request.user)
-        return profile
-    
-
-
-
 class EditProfileView(LoginRequiredMixin, UpdateView):
     model = Profile
     form_class = ProfileForm
