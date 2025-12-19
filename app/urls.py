@@ -19,7 +19,7 @@ from .views import (
     RegisterView,
     UserLoginView,
     UserLogoutView,
-    ActivateAccountView,
+    VerifyEmailView,
     ProfileView,
     EditProfileView,
 )
@@ -50,8 +50,9 @@ urlpatterns = [
 
 urlpatterns += [
     path('register/', RegisterView.as_view(), name='register'),
-    path('activate/<uidb64>/<token>/', ActivateAccountView.as_view(), name='activate'),
     path('profile/', ProfileView.as_view(), name='profile'),
+    path('verify-email/', VerifyEmailView.as_view(), name='verify_email'),
+
 ]
 
 if settings.DEBUG:

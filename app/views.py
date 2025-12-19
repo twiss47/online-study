@@ -9,7 +9,10 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+from .models import EmailOTP
 from django.urls import reverse_lazy, reverse
+from django.conf import settings
+import random
 from django.shortcuts import render, get_object_or_404
 from .models import (
     Course,
@@ -218,43 +221,27 @@ class RegisterView(View):
         if User.objects.filter(email=email).exists():
             return render(request, 'home/register.html', {'error': 'Email already exists.'})
 
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.is_active = False
-        user.save()
-
-        current_site = get_current_site(request)
-        token = default_token_generator.make_token(user)
-        uid = urlsafe_base64_encode(force_bytes(user.pk))
-        activation_link = request.build_absolute_uri(
-            reverse_lazy('app:activate', kwargs={'uidb64': uid, 'token': token})
+        user = User.objects.create_user(
+            username=username, 
+            email=email, 
+            password=password,
+            is_active = False
         )
+    
+        code = str(random.randint(100000,999999))
+        EmailOTP.objects.create(user=user,code=code)
 
-        message = f"Hi {user.username}, please click the link to activate your account: {activation_link}"
         send_mail(
-            'Activate your account',
-            message,
-            'REMOVED',  
+            'Your verification code',
+            f'Hi {user.username}, your verification code is: {code}',
+            settings.EMAIL_HOST_USER,
             [user.email],
             fail_silently=False,
         )
 
-        return render(request, 'home/registration_pending.html')
 
-# Activate
-class ActivateAccountView(View):
-    def get(self, request, uidb64, token):
-        try:
-            uid = force_str(urlsafe_base64_decode(uidb64))
-            user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-            user = None
-
-        if user is not None and default_token_generator.check_token(user, token):
-            user.is_active = True
-            user.save()
-            return render(request, 'home/activation_success.html', {'message': "Your account is now active! You can login."})
-        else:
-            return render(request, 'home/activation_invalid.html', {'message': "Activation link is invalid or expired."})
+        request.session['verify_user_id'] = user.id
+        return redirect('app:verify_email')
 
 
 class ProfileView(LoginRequiredMixin, TemplateView):
@@ -278,3 +265,32 @@ class EditProfileView(LoginRequiredMixin, UpdateView):
     def get_object(self, queryset=None):
         profile, created = Profile.objects.get_or_create(user=self.request.user)
         return profile
+
+
+
+class VerifyEmailView(View):
+    def get(self, request):
+        return render(request, 'home/verify_email.html')
+
+    def post(self, request):
+        code = request.POST.get('code')
+        user_id = request.session.get('verify_user_id')
+
+        if not user_id:
+            return redirect('app:register')
+
+        try:
+            otp = EmailOTP.objects.get(user_id=user_id, code=code)
+        except EmailOTP.DoesNotExist:
+            return render(request, 'home/verify_email.html', {
+                'error': 'Invalid verification code'
+            })
+
+        user = otp.user
+        user.is_active = True
+        user.save()
+
+        otp.delete()
+        del request.session['verify_user_id']
+
+        return render(request, 'home/activation_success.html')

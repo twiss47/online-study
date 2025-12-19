@@ -102,7 +102,7 @@
 
                 {% if user.is_authenticated %}
                     <div class="nav-item dropdown d-flex align-items-center">
-                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+                        <a href="{% url 'app:profile' %}" class="nav-link dropdown-toggle" data-toggle="dropdown">
                             👋 {{ user.username }}
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
@@ -122,7 +122,6 @@
         </nav>
     </div>
     <!-- Navbar End -->
-
 
     <!-- Header Start -->
     <div class="jumbotron jumbotron-fluid position-relative overlay-bottom" style="margin-bottom: 90px;">

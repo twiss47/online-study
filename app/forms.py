@@ -10,7 +10,7 @@ class RegisterForm(UserCreationForm):
 
 
 
-\
+
 
 class ProfileForm(forms.ModelForm):
     class Meta:
