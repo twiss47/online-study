@@ -11,6 +11,18 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv(BASE_DIR / ".env")
+
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True"
+
+ALLOWED_HOSTS = []
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,10 +32,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'REMOVED'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -180,19 +190,24 @@ ACCOUNT_EMAIL_REQUIRED = True
 
 
 
-# Google
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'REMOVED'
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'REMOVED'
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+SECRET_KEY = os.getenv("SECRET_KEY")
+DEBUG = os.getenv("DEBUG") == "True"
 
-# GitHub
-SOCIAL_AUTH_GITHUB_KEY = 'REMOVED'
-SOCIAL_AUTH_GITHUB_SECRET = 'REMOVED'
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
 
-# Twitter
-SOCIAL_AUTH_TWITTER_KEY = 'YOUR_TWITTER_API_KEY'
-SOCIAL_AUTH_TWITTER_SECRET = 'YOUR_TWITTER_API_SECRET'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.getenv("REMOVED")
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv("REMOVED")
 
-# Facebook
-SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_FACEBOOK_APP_ID'
-SOCIAL_AUTH_FACEBOOK_SECRET = 'YOUR_FACEBOOK_APP_SECRET'
+SOCIAL_AUTH_GITHUB_KEY = os.getenv("REMOVED")
+SOCIAL_AUTH_GITHUB_SECRET = os.getenv("REMOVED")
+
+SOCIAL_AUTH_TWITTER_KEY = os.getenv("TWITTER_CLIENT_ID")
+SOCIAL_AUTH_TWITTER_SECRET = os.getenv("TWITTER_CLIENT_SECRET")
+
+SOCIAL_AUTH_FACEBOOK_KEY = os.getenv("FACEBOOK_CLIENT_ID")
+SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv("FACEBOOK_CLIENT_SECRET")
