@@ -1,4 +1,7 @@
-.venv
-.env.env
+venv
+.env
+db.sqlite3
+replacements.txt
+.env
 db.sqlite3
 replacements.txt
