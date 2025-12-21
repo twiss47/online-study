@@ -294,3 +294,4 @@ class VerifyEmailView(View):
         del request.session['verify_user_id']
 
         return render(request, 'home/activation_success.html')
+ 

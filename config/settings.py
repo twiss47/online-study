@@ -28,8 +28,6 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 
-# Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,8 +35,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app'
+    'django.contrib.sites',
+
+    'app',
+    'social_django',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
 ]
+
+SITE_ID = 2
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -46,9 +54,22 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+
+    'allauth.account.middleware.AccountMiddleware',
+
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+
+
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.github.GithubOAuth2',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 ROOT_URLCONF = 'config.urls'
 TEMPLATES = [
@@ -146,11 +167,32 @@ EMAIL_HOST_USER = 'REMOVED'
 EMAIL_HOST_PASSWORD = 'REMOVED'       
 
 
+LOGIN_URL = 'app:login'
+LOGIN_REDIRECT_URL = 'app:profile'
+LOGOUT_REDIRECT_URL = 'app:home'
 
-LOGIN_URL = 'login'  
-LOGOUT_REDIRECT_URL = 'login'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_AUTHENTICATION_METHOD = "username"
+ACCOUNT_EMAIL_REQUIRED = True
 
 
 
-LOGIN_REDIRECT_URL = 'app:profile'  
-LOGOUT_REDIRECT_URL = 'app:home'    
+
+# Google
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = 'REMOVED'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'REMOVED'
+
+
+# GitHub
+SOCIAL_AUTH_GITHUB_KEY = 'REMOVED'
+SOCIAL_AUTH_GITHUB_SECRET = 'REMOVED'
+
+# Twitter
+SOCIAL_AUTH_TWITTER_KEY = 'YOUR_TWITTER_API_KEY'
+SOCIAL_AUTH_TWITTER_SECRET = 'YOUR_TWITTER_API_SECRET'
+
+# Facebook
+SOCIAL_AUTH_FACEBOOK_KEY = 'YOUR_FACEBOOK_APP_ID'
+SOCIAL_AUTH_FACEBOOK_SECRET = 'YOUR_FACEBOOK_APP_SECRET'
