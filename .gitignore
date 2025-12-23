@@ -1,7 +1,20 @@
-venv
-.env
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+env/
+venv/
+
+# Django
+*.log
+local_settings.py
 db.sqlite3
-replacements.txt
+media/
+
+# Docker / Environment
 .env
-db.sqlite3
+*.env
+
+# Misc
 replacements.txt
