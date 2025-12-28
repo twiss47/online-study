@@ -49,29 +49,7 @@
             opacity: 0.9;
         }
 
-        .google-btn {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(90deg,#6d02cb,#51029f);
-            color: white;
-            font-weight: 500;
-            border-radius: 8px;
-            padding: 12px;
-            text-decoration: none;
-            transition: 0.3s;
-            margin-bottom: 20px;
-        }
 
-        .google-btn img {
-            width: 22px;
-            height: 22px;
-            margin-right: 10px;
-        }
-
-        .google-btn:hover {
-            opacity: 0.9;
-        }
 
         .divider {
             height: 1px;
@@ -145,11 +123,6 @@
 
     <p class="text-center">Or login with:</p>
 
-    <!-- Google login button -->
-    <a href="{% url 'social:begin' 'google-oauth2' %}" id="google-login-btn" class="google-btn w-100">
-        <img src="{% static 'img/google-icon.png' %}" alt="Google Icon">
-        Continue with Google
-    </a>
 
     <!-- GitHub login button -->
     <a href="{% url 'social:begin' 'github' %}" class="github-btn w-100 mb-2">

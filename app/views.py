@@ -295,3 +295,17 @@ class VerifyEmailView(View):
 
         return render(request, 'home/activation_success.html')
  
+
+
+
+def courses(request):
+    query = request.GET.get("q", "")
+    courses = Course.objects.all()
+
+    if query:
+        courses = courses.filter(title__icontains=query)
+
+    return render(request, "home/courses.html", {
+        "courses": courses,
+        "query": query
+    })
